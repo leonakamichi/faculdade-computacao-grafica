@@ -1,6 +1,8 @@
 # Computação gráfica
 
--Trabalho1: Formas geométricas
--Trabalho2: The puppet
--Trabalho3: Objetos e GUI
--Trabalho4: Objetos e Texturas
+<ul> 
+        <li>Trabalho1: Formas geométricas</li> 
+        <li>Trabalho2: The puppet</li> 
+        <li>Trabalho3: Objetos e GUI</li> 
+        <li>Trabalho4: Objetos e Texturas</li> 
+ </ul>
