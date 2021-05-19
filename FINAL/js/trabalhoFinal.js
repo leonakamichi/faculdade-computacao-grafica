@@ -31,9 +31,8 @@ var objLoading = function(){
 
 	//Load da pista
 	loaderFBX.load(
-		'assets/pista/racetrackwithassets.fbx',//arquivo que vamos buscar
+		'assets/pista/racetrackwithassets.fbx',
 		function(obj){
-			//atribui a cena, colore, reposiciona, rotaciona
 			elementos['pista'] = obj;
 			let texLoader = new THREE.TextureLoader().setPath("assets/pista/");
 
@@ -66,6 +65,39 @@ var objLoading = function(){
 			loadFinished = true;
 
 		});
+
+		//Load do carro 
+		loaderFBX.load(
+			'assets/carro/Models/car_1.fbx',
+			function(obj){
+				elementos['carro_policia'] = obj;
+				let texLoader = new THREE.TextureLoader().setPath("assets/carro/Textures/");
+	
+				obj.traverse( function (child){
+						if (child instanceof THREE.Mesh){
+							child.material = new THREE.MeshLambertMaterial({
+								map: texLoader.load("CarTexture1.png"),
+							});
+						}
+					}
+				);
+	
+				 obj.scale.y = 1;
+				 obj.scale.z = 1;
+				 obj.scale.x = 1;
+	
+				obj.position.y = -5.6;
+				obj.position.x = -16;
+				obj.position.z = -15;
+				
+				obj.rotation.x += 1.6;
+				obj.rotation.z -= 1.6;
+
+				scene.add(obj);
+				console.log("Carregou Carro 1");
+				loadFinished = true;
+	
+			});
 };
 //troca a ação do nosso modelo
 // const setAction = function(toAction) {
