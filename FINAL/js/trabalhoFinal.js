@@ -54,11 +54,13 @@ var objLoading = function(){
 				}
 			);
 
-			 obj.scale.y = 0.05;
-			 obj.scale.z = 0.05;
-			 obj.scale.x = 0.05;
+			obj.scale.y = 0.05;
+			obj.scale.z = 0.05;
+			obj.scale.x = 0.05;
 
 			obj.position.y = -7.5;
+
+			obj.rotation.y += 3.14;
 
 			scene.add(obj);
 			console.log("Carregou Pista");
@@ -87,12 +89,12 @@ var objLoading = function(){
 				 obj.scale.x = 1;
 	
 				obj.position.y = -5.6;
-				obj.position.x = -16;
-				obj.position.z = -15;
+				obj.position.x = 18;
+				obj.position.z = 15;
 				
 				obj.rotation.x += 1.6;
-				obj.rotation.z -= 1.6;
-
+				obj.rotation.z += 1.6;
+				
 				scene.add(obj);
 				console.log("Carregou Carro 1");
 				loadFinished = true;
@@ -273,9 +275,9 @@ var init = function (){
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	document.body.appendChild(renderer.domElement);
 		
-	camera.position.z = 50;
+	camera.position.z = 63;
 	camera.position.x = 0;
-	camera.position.y = 1.7;
+	camera.position.y = 20;
 	
 	createGui();
 
@@ -295,22 +297,11 @@ var init = function (){
 
 };
 
-
-
-var key_r = false;
 var key_space = false;
-var key_q = false;
 
 var soltouBotao = function(e){
-
-	if (e.keyCode == 82){ //r
-		key_r = false;
-	}
 	if (e.keyCode == 32){ //espaço
 		key_space = false;
-	}
-	if (e.keyCode == 81){ //espaço
-		key_q = false;
 	}
 }
 
@@ -318,10 +309,6 @@ var soltouBotao = function(e){
 var apertouButao =  function(e){
 	console.log(e.keyCode);
 
-	if (e.keyCode == 82){ //r
-		elementos['cerberus'].rotation.x+=0.1;
-		key_r = true;
-	}
 	if (e.keyCode == 32){ // space
 		key_space = true;
 		pulando = true;
@@ -331,26 +318,22 @@ var apertouButao =  function(e){
 			lights['spot'].intensity = 0;
 	}
 
-	if (e.keyCode == 81){ // q
-		key_q = true;		
+	if (e.keyCode == 37){
+		elementos["carro_policia"].position.x -= 1.0;
 	}
 
-	if (e.keyCode == 38){ //douwn
-		camera.position.z-=0.5;
-		//elementos["puppet"]["tronco"].position.z += 1;
+	if (e.keyCode == 39){
+		elementos["carro_policia"].position.x += 1.0;
 	}
-	if (e.keyCode == 40){ // UP
-		//elementos["puppet"]["tronco"].position.z -= 1;
-		camera.position.z+=0.5;
+
+	if (e.keyCode == 40){ //douwn
+		elementos["carro_policia"].position.z += 1.0;
+	}
+	if (e.keyCode == 38){ // UP
+		elementos["carro_policia"].position.z -= 1.0;
 	}
 }
 
-var count =0; 
-var velocidadeOmbroDireitoC = -0.01;
-var velocidadeOmbroDireitoL = -0.01;
-var pulando = false;
-var velocidadePulo = 0.5;
-var altura = -1;
 var animation = function (){
 	requestAnimationFrame(animation); 
 
