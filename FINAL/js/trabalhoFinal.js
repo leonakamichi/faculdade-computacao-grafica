@@ -14,9 +14,333 @@ var velocidade = 0.07;
 var ground;
 var geometriaA;
 
+var char = [];
+
+var objLoading = function() {
+	loaderCaixa1 = new THREE.OBJLoader();
+	loaderCaixa1.load(
+		'assets/obstaculos/Crate/crate.obj',
+		function(obj) {
+			
+			elementos['caixa1'] = obj;
+
+			let texLoader = new THREE.TextureLoader().setPath("assets/obstaculos/Crate/");
+
+			obj.traverse(function(child) {
+					if(child instanceof THREE.Mesh) {
+						let material = new THREE.MeshStandardMaterial();
+						let materialBase = texLoader.load("crate.jpg");
+						material.map = materialBase;
+
+						child.material = material;
+					} 
+				}
+			);
+
+			obj.scale.y = 0.3; 
+			obj.scale.z = 0.3;
+			obj.scale.x = 0.3;
+
+            obj.position.x = 12;
+			obj.position.y = -5.3;
+			obj.position.z = 200;
+
+			scene.add(obj);
+			console.log("Carregou Caixa !");
+
+		},
+		function(andamento) {
+			console.log("Carregando..." + (andamento.loaded / andamento.total) * 100 + " %");
+		},
+		function(error) {
+			console.log("Deu merda!: "+ error);
+		},
+	);
+
+	loaderCaixa2 = new THREE.OBJLoader();
+	loaderCaixa2.load(
+		'assets/obstaculos/Crate/crate.obj',
+		function(obj) {
+			
+			elementos['caixa2'] = obj;
+
+			let texLoader = new THREE.TextureLoader().setPath("assets/obstaculos/Crate/");
+
+			obj.traverse(function(child) {
+					if(child instanceof THREE.Mesh) {
+						let material = new THREE.MeshStandardMaterial();
+						let materialBase = texLoader.load("crate.jpg");
+						material.map = materialBase;
+
+						child.material = material;
+					} 
+				}
+			);
+
+			obj.scale.y = 0.3; 
+			obj.scale.z = 0.3;
+			obj.scale.x = 0.3;
+
+            obj.position.x = 35;
+			obj.position.y = -5.3;
+			obj.position.z = 0;
+
+			scene.add(obj);
+			console.log("Carregou Caixa2 !");
+
+		},
+		function(andamento) {
+			console.log("Carregando..." + (andamento.loaded / andamento.total) * 100 + " %");
+		},
+		function(error) {
+			console.log("Deu merda!: "+ error);
+		},
+	);
+
+	loaderCaixa3 = new THREE.OBJLoader();
+		loaderCaixa3.load(
+		'assets/obstaculos/Crate/crate.obj',
+		function(obj) {
+			
+			elementos['caixa3'] = obj;
+
+			let texLoader = new THREE.TextureLoader().setPath("assets/obstaculos/Crate/");
+
+			obj.traverse(function(child) {
+					if(child instanceof THREE.Mesh) {
+						let material = new THREE.MeshStandardMaterial();
+						let materialBase = texLoader.load("crate.jpg");
+						material.map = materialBase;
+
+						child.material = material;
+					} 
+				}
+			);
+
+			obj.scale.y = 0.3; 
+			obj.scale.z = 0.3;
+			obj.scale.x = 0.3;
+
+            obj.position.x = -15;
+			obj.position.y = -5.3;
+			obj.position.z = 400;
+
+			scene.add(obj);
+			console.log("Carregou Caixa3 !");
+
+		},
+		function(andamento) {
+			console.log("Carregando..." + (andamento.loaded / andamento.total) * 100 + " %");
+		},
+		function(error) {
+			console.log("Deu merda!: "+ error);
+		},
+	);
+
+	loaderCaixa4 = new THREE.OBJLoader();
+		loaderCaixa4.load(
+		'assets/obstaculos/Crate/crate.obj',
+		function(obj) {
+			
+			elementos['caixa4'] = obj;
+
+			let texLoader = new THREE.TextureLoader().setPath("assets/obstaculos/Crate/");
+
+			obj.traverse(function(child) {
+					if(child instanceof THREE.Mesh) {
+						let material = new THREE.MeshStandardMaterial();
+						let materialBase = texLoader.load("crate.jpg");
+						material.map = materialBase;
+
+						child.material = material;
+					} 
+				}
+			);
+
+			obj.scale.y = 0.3; 
+			obj.scale.z = 0.3;
+			obj.scale.x = 0.3;
+
+            obj.position.x = -10;
+			obj.position.y = -5.3;
+			obj.position.z = -50;
+
+			scene.add(obj);
+			console.log("Carregou Caixa3 !");
+
+		},
+		function(andamento) {
+			console.log("Carregando..." + (andamento.loaded / andamento.total) * 100 + " %");
+		},
+		function(error) {
+			console.log("Deu merda!: "+ error);
+		},
+	);
+
+	loaderBox1 = new THREE.OBJLoader();
+	loaderBox1.load(
+		'assets/obstaculos/Box/ammoBox.obj',
+		function(obj) {
+			
+			elementos['box1'] = obj;
+
+			let texLoader = new THREE.TextureLoader().setPath("assets/obstaculos/Box/");
+
+			obj.traverse(function(child) {
+					if(child instanceof THREE.Mesh) {
+						let material = new THREE.MeshStandardMaterial();
+						let materialBase = texLoader.load("box.jpg");
+						material.map = materialBase;
+
+						child.material = material;
+					} 
+				}
+			);
+
+			obj.scale.y = 0.3; 
+			obj.scale.z = 0.3;
+			obj.scale.x = 0.3;
+
+            obj.position.x = -20;
+			obj.position.y = -0.5;
+			obj.position.z = 60;
+
+			scene.add(obj);
+			console.log("Carregou Box1 !");
+
+		},
+		function(andamento) {
+			console.log("Carregando..." + (andamento.loaded / andamento.total) * 100 + " %");
+		},
+		function(error) {
+			console.log("Deu merda!: "+ error);
+		},
+	);
+
+	loaderBox2 = new THREE.OBJLoader();
+	loaderBox2.load(
+		'assets/obstaculos/Box/ammoBox.obj',
+		function(obj) {
+			
+			elementos['box2'] = obj;
+
+			let texLoader = new THREE.TextureLoader().setPath("assets/obstaculos/Box/");
+
+			obj.traverse(function(child) {
+					if(child instanceof THREE.Mesh) {
+						let material = new THREE.MeshStandardMaterial();
+						let materialBase = texLoader.load("box.jpg");
+						material.map = materialBase;
+
+						child.material = material;
+					} 
+				}
+			);
+
+			obj.scale.y = 0.3; 
+			obj.scale.z = 0.3;
+			obj.scale.x = 0.3;
+
+            obj.position.x = 30;
+			obj.position.y = -0.5;
+			obj.position.z = 320;
+
+			scene.add(obj);
+			console.log("Carregou Box2 !");
+
+		},
+		function(andamento) {
+			console.log("Carregando..." + (andamento.loaded / andamento.total) * 100 + " %");
+		},
+		function(error) {
+			console.log("Deu merda!: "+ error);
+		},
+	);
+
+	loaderBox3 = new THREE.OBJLoader();
+	loaderBox3.load(
+		'assets/obstaculos/Box/ammoBox.obj',
+		function(obj) {
+			
+			elementos['box3'] = obj;
+
+			let texLoader = new THREE.TextureLoader().setPath("assets/obstaculos/Box/");
+
+			obj.traverse(function(child) {
+					if(child instanceof THREE.Mesh) {
+						let material = new THREE.MeshStandardMaterial();
+						let materialBase = texLoader.load("box.jpg");
+						material.map = materialBase;
+
+						child.material = material;
+					} 
+				}
+			);
+
+			obj.scale.y = 0.3; 
+			obj.scale.z = 0.3;
+			obj.scale.x = 0.3;
+
+            obj.position.x = 30;
+			obj.position.y = -0.5;
+			obj.position.z = -150;
+
+			scene.add(obj);
+			console.log("Carregou Box3 !");
+
+		},
+		function(andamento) {
+			console.log("Carregando..." + (andamento.loaded / andamento.total) * 100 + " %");
+		},
+		function(error) {
+			console.log("Deu merda!: "+ error);
+		},
+	);
+
+	loaderBox4 = new THREE.OBJLoader();
+	loaderBox4.load(
+		'assets/obstaculos/Box/ammoBox.obj',
+		function(obj) {
+			
+			elementos['box4'] = obj;
+
+			let texLoader = new THREE.TextureLoader().setPath("assets/obstaculos/Box/");
+
+			obj.traverse(function(child) {
+					if(child instanceof THREE.Mesh) {
+						let material = new THREE.MeshStandardMaterial();
+						let materialBase = texLoader.load("box.jpg");
+						material.map = materialBase;
+
+						child.material = material;
+					} 
+				}
+			);
+
+			obj.scale.y = 0.3; 
+			obj.scale.z = 0.3;
+			obj.scale.x = 0.3;
+
+            obj.position.x = -25;
+			obj.position.y = -0.5;
+			obj.position.z = -240;
+
+			scene.add(obj);
+			console.log("Carregou Box4 !");
+
+		},
+		function(andamento) {
+			console.log("Carregando..." + (andamento.loaded / andamento.total) * 100 + " %");
+		},
+		function(error) {
+			console.log("Deu merda!: "+ error);
+		},
+	);
+}
+
 var fbxLoading = function() {
-	loaderPlanta = new THREE.FBXLoader();
-	loaderPlanta.load(
+	loaderCarro = new THREE.FBXLoader();
+	loaderCarro.load(
 		'assets/carro/Models/car_1.fbx',
 		function(obj) {
 			
@@ -41,12 +365,16 @@ var fbxLoading = function() {
 
             obj.position.x = 0;
 			obj.position.y = -5;
-			obj.position.z = 300;
+			obj.position.z = 500;
 
 			obj.rotation.x -= 4.7;
 			obj.rotation.z += 1.6;
 
-			scene.add(obj);
+			char = new THREE.Group();
+			char.add(camera);
+			char.add(obj);
+
+			scene.add(char);
 			console.log("Carregou Carro !");
 
 		},
@@ -61,7 +389,7 @@ var fbxLoading = function() {
 
 var godSaysLightsOn = function() {
 	let spot = new THREE.SpotLight(0xffffff);
-	spot.position.set(100, 100, 100);
+	spot.position.set(800, 800, 800);
 	scene.add(spot);
 
 	scene.add(new THREE.HemisphereLight( 0x443333, 0x222233, 4));
@@ -156,7 +484,7 @@ var init = function (){
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	document.body.appendChild(renderer.domElement);
 		
-	camera.position.z = 400;
+	camera.position.z = 620;
 	camera.position.x = 0;
 	camera.position.y = 50;
 
@@ -165,6 +493,8 @@ var init = function (){
 	createGui();
 
 	fbxLoading();
+
+	objLoading();
 
 	animation();
 
@@ -184,7 +514,7 @@ var init = function (){
 	materialGround.displacementBias = 1;
 
 	ground = new THREE.Mesh(
-		new THREE.PlaneBufferGeometry(100, 800),
+		new THREE.PlaneBufferGeometry(100, 1500),
 		materialGround
 	);
 
@@ -206,14 +536,20 @@ var key_q = false;
 
 var soltouBotao = function(e){
 
-	if (e.keyCode == 82){ //r
-		key_r = false;
+	if (e.keyCode == 37){ //left
+		char.position.x -= 0;
 	}
-	if (e.keyCode == 32){ //espaço
-		key_space = false;
+
+	if (e.keyCode == 39){ //right
+		char.position.x += 0;
 	}
-	if (e.keyCode == 81){ //espaço
-		key_q = false;
+
+	if (e.keyCode == 38){ //up
+		char.position.z -= 0;
+	}
+
+	if (e.keyCode == 40){ //down
+		char.position.z += 0;
 	}
 }
 
@@ -221,23 +557,19 @@ var soltouBotao = function(e){
 var apertouButao =  function(e){
 	console.log(e.keyCode);
 
-	if (e.keyCode == 82){ //r
-		key_r = true;
-	}
-	if (e.keyCode == 32){ // space
-		key_space = true;
-		pulando = true;
+	if (e.keyCode == 37){ //left
+		char.position.x -= 2;
 	}
 
-	if (e.keyCode == 81){ // q
-		key_q = true;		
+	if (e.keyCode == 39){ //right
+		char.position.x += 2;
 	}
 
-	if (e.keyCode == 38){ //douwn
-		camera.position.z-=0.5;
+	if (e.keyCode == 38){ //up
+		char.position.z -= 3;
 	}
-	if (e.keyCode == 40){ // UP
-		camera.position.z+=0.5;
+	if (e.keyCode == 40){ //down
+		char.position.z += 3;
 	}
 }
 
