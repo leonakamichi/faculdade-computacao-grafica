@@ -14,20 +14,20 @@ var velocidade = 0.07;
 var ground;
 var geometriaA;
 
-var objLoading = function() {
-	loaderCarro = new THREE.OBJLoader();
-	loaderCarro.load(
-		'assets/carro/uploads_files_2027445_CyberpunkDeLorean.obj',
+var fbxLoading = function() {
+	loaderPlanta = new THREE.FBXLoader();
+	loaderPlanta.load(
+		'assets/carro/Models/car_1.fbx',
 		function(obj) {
 			
 			elementos['carro'] = obj;
 
-			let texLoader = new THREE.TextureLoader().setPath("assets/carro/textures/");
+			let texLoader = new THREE.TextureLoader().setPath("assets/carro/Textures/");
 
 			obj.traverse(function(child) {
 					if(child instanceof THREE.Mesh) {
 						let material = new THREE.MeshStandardMaterial();
-						let materialBase = texLoader.load("DeLorean.jpg");
+						let materialBase = texLoader.load("CarTexture1.png");
 						material.map = materialBase;
 
 						child.material = material;
@@ -35,15 +35,16 @@ var objLoading = function() {
 				}
 			);
 
-			obj.scale.y = 2; 
-			obj.scale.z = 2;
-			obj.scale.x = 2;
+			obj.scale.y = 8; 
+			obj.scale.z = 8;
+			obj.scale.x = 8;
 
-            obj.position.x = -16;
-			obj.position.y = -6;
+            obj.position.x = 0;
+			obj.position.y = -5;
 			obj.position.z = 300;
 
-            obj.rotation.y += 0.9;
+			obj.rotation.x -= 4.7;
+			obj.rotation.z += 1.6;
 
 			scene.add(obj);
 			console.log("Carregou Carro !");
@@ -76,19 +77,19 @@ var createGui = function (){
 		positionZ: 0,
 		rotationY: 0,
 
-		animalColor : "#000000",
+		carColor : "#000000",
 		groundColor: "#006400",
 
-		animais: "",
+		carro: "",
 		modelGUI: ""
 	};
 
-	let opcoes = ['Jaguar'];
-	let comboChange = gui.add(parametrosGUI, 'animais').options(opcoes).name("Animais");
+	let opcoes = ['Carro'];
+	let comboChange = gui.add(parametrosGUI, 'carro').options(opcoes).name("Carro");
 	comboChange.onChange(function(parametro){
-			if (parametro == 'Jaguar'){
-				camera.lookAt(elementos["jaguar"].position);
-				parametrosGUI.modelGUI = "jaguar";
+			if (parametro == 'Carro'){
+				camera.lookAt(elementos["carro"].position);
+				parametrosGUI.modelGUI = "carro";
 			}
 		}
 	);
@@ -120,7 +121,7 @@ var createGui = function (){
 	);	
 
 	let colorFolder = gui.addFolder('Coloros');
-	let aColor = colorFolder.addColor(parametrosGUI, 'animalColor').name("Animal Color");
+	let aColor = colorFolder.addColor(parametrosGUI, 'carColor').name("Car Color");
 	aColor.onChange(function (parametro){
 			elementos[parametrosGUI.modelGUI].traverse(function(child) {
 				if(child.isMesh) {
@@ -163,7 +164,7 @@ var init = function (){
 	
 	createGui();
 
-	objLoading();
+	fbxLoading();
 
 	animation();
 
