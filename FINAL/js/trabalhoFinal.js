@@ -12,7 +12,10 @@ var elementos = [];
 var velocidade = 0.07;
 
 var groundAsfalto;
+var groundGrama;
 var geometriaA;
+
+var lights = [];
 
 var char = [];
 
@@ -28,11 +31,13 @@ var objLoading = function() {
 
 			obj.traverse(function(child) {
 					if(child instanceof THREE.Mesh) {
-						let material = new THREE.MeshStandardMaterial();
+						let material = new THREE.MeshLambertMaterial();
 						let materialBase = texLoader.load("crate.jpg");
 						material.map = materialBase;
-
 						child.material = material;
+
+						child.castShadow = true;
+						child.receiveShadow = true;
 					} 
 				}
 			);
@@ -68,11 +73,13 @@ var objLoading = function() {
 
 			obj.traverse(function(child) {
 					if(child instanceof THREE.Mesh) {
-						let material = new THREE.MeshStandardMaterial();
+						let material = new THREE.MeshLambertMaterial();
 						let materialBase = texLoader.load("crate.jpg");
 						material.map = materialBase;
-
 						child.material = material;
+
+						child.castShadow = true;
+						child.receiveShadow = true;
 					} 
 				}
 			);
@@ -108,11 +115,13 @@ var objLoading = function() {
 
 			obj.traverse(function(child) {
 					if(child instanceof THREE.Mesh) {
-						let material = new THREE.MeshStandardMaterial();
+						let material = new THREE.MeshLambertMaterial();
 						let materialBase = texLoader.load("crate.jpg");
 						material.map = materialBase;
-
 						child.material = material;
+
+						child.castShadow = true;
+						child.receiveShadow = true;
 					} 
 				}
 			);
@@ -148,11 +157,13 @@ var objLoading = function() {
 
 			obj.traverse(function(child) {
 					if(child instanceof THREE.Mesh) {
-						let material = new THREE.MeshStandardMaterial();
+						let material = new THREE.MeshLambertMaterial();
 						let materialBase = texLoader.load("crate.jpg");
 						material.map = materialBase;
-
 						child.material = material;
+
+						child.castShadow = true;
+						child.receiveShadow = true;
 					} 
 				}
 			);
@@ -188,11 +199,13 @@ var objLoading = function() {
 
 			obj.traverse(function(child) {
 					if(child instanceof THREE.Mesh) {
-						let material = new THREE.MeshStandardMaterial();
+						let material = new THREE.MeshLambertMaterial();
 						let materialBase = texLoader.load("box.jpg");
 						material.map = materialBase;
-
 						child.material = material;
+
+						child.castShadow = true;
+						child.receiveShadow = true;
 					} 
 				}
 			);
@@ -228,11 +241,13 @@ var objLoading = function() {
 
 			obj.traverse(function(child) {
 					if(child instanceof THREE.Mesh) {
-						let material = new THREE.MeshStandardMaterial();
+						let material = new THREE.MeshLambertMaterial();
 						let materialBase = texLoader.load("box.jpg");
 						material.map = materialBase;
-
 						child.material = material;
+
+						child.castShadow = true;
+						child.receiveShadow = true;
 					} 
 				}
 			);
@@ -268,11 +283,13 @@ var objLoading = function() {
 
 			obj.traverse(function(child) {
 					if(child instanceof THREE.Mesh) {
-						let material = new THREE.MeshStandardMaterial();
+						let material = new THREE.MeshLambertMaterial();
 						let materialBase = texLoader.load("box.jpg");
 						material.map = materialBase;
-
 						child.material = material;
+
+						child.castShadow = true;
+						child.receiveShadow = true;
 					} 
 				}
 			);
@@ -308,11 +325,13 @@ var objLoading = function() {
 
 			obj.traverse(function(child) {
 					if(child instanceof THREE.Mesh) {
-						let material = new THREE.MeshStandardMaterial();
+						let material = new THREE.MeshLambertMaterial();
 						let materialBase = texLoader.load("box.jpg");
 						material.map = materialBase;
-
 						child.material = material;
+
+						child.castShadow = true;
+						child.receiveShadow = true;
 					} 
 				}
 			);
@@ -350,11 +369,13 @@ var fbxLoading = function() {
 
 			obj.traverse(function(child) {
 					if(child instanceof THREE.Mesh) {
-						let material = new THREE.MeshStandardMaterial();
+						let material = new THREE.MeshLambertMaterial();
 						let materialBase = texLoader.load("CarTexture1.png");
 						material.map = materialBase;
-
 						child.material = material;
+
+						child.castShadow = true;
+						child.receiveShadow = true;
 					} 
 				}
 			);
@@ -387,22 +408,54 @@ var fbxLoading = function() {
 	);
 };
 
-var godSaysLightsOn = function() {
-	let spot = new THREE.SpotLight(0xffffff);
-	spot.position.set(800, 800, 800);
-	scene.add(spot);
+var ambientLightOn = function () {
+	lights['ambient'] = new THREE.AmbientLight(0xffffff);
+	lights['ambient'].intensity = 0.6;
+	scene.add(lights['ambient']);
+}
 
-	scene.add(new THREE.HemisphereLight( 0x443333, 0x222233, 4));
+var hemisphereLightOn = function () {
+	lights['hemisphere'] = new THREE.HemisphereLight(0xcce0ff);
+	scene.add(lights['hemisphere']);
+}
+
+var directionalLightOn = function () {
+	let light = new THREE.DirectionalLight(0xffffff,1);
+	light.castShadow = true;
+	light.shadow.mapSize.width = 4096;
+    light.shadow.mapSize.height = 4096;
+    light.shadow.camera.left = 1000;
+    light.shadow.camera.bottom = 1000;
+    light.shadow.camera.right = -1000
+    light.shadow.camera.top = -1000;
+
+	light.position.y = 300;
+	light.position.x = 195;
+
+	light.intensity = 1;
+	light.target = groundAsfalto;
+
+	scene.add(light);
+	scene.add(light.target);
+
+	lights['directional'] = light;
+}
+
+var godSaysLightsOn = function() {
+	ambientLightOn();
+	directionalLightOn();
+	//hemisphereLightOn();
 };
 
 var createGui = function (){
 	const gui = new dat.GUI();
 
 	parametrosGUI = {
-		scalarPuppet: 1,
 		positionX: 0,
 		positionY: -6,
 		positionZ: 0,
+		ambientLight: 1,
+		sunLight: 1,
 		rotationY: 0,
 
 		carColor : "#000000",
@@ -411,6 +464,18 @@ var createGui = function (){
 		carro: "",
 		modelGUI: ""
 	};
+
+	let intensidadeLuz = gui.add(parametrosGUI, 'ambientLight').min(0).max(2).step(0.1).name("Ambiente Light");
+	intensidadeLuz.onChange(function (parametro){
+		lights['ambient'].intensity = parametro;
+		}
+	);
+
+	let sunLight = gui.add(parametrosGUI, 'sunLight').min(0).max(2).step(0.1).name("Sun Light");
+	sunLight.onChange(function (parametro){
+		lights['directional'].intensity = parametro;
+		}
+	);
 
 	let opcoes = ['Carro'];
 	let comboChange = gui.add(parametrosGUI, 'carro').options(opcoes).name("Carro");
@@ -424,19 +489,19 @@ var createGui = function (){
 
 	let folderPosition = gui.addFolder("Position");
 
-	let positionX = folderPosition.add(parametrosGUI, 'positionX').min(-30).max(30).step(0.1).name("Position X");
+	let positionX = folderPosition.add(parametrosGUI, 'positionX').min(0).max(600).step(15).name("Position X");
 	    positionX.onChange(function (parametro){
-		    elementos[parametrosGUI.modelGUI].position.x = parametro;
+		    lights['directional'].position.x = parametro;
 		}
 	);
-	let positionY = folderPosition.add(parametrosGUI, 'positionY').min(-10).max(10).step(0.1).name("Position Y");
+	let positionY = folderPosition.add(parametrosGUI, 'positionY').min(0).max(600).step(15).name("Position Y");
 	    positionY.onChange(function (parametro){
-			elementos[parametrosGUI.modelGUI].position.y = parametro;
+			lights['directional'].position.y = parametro;
 		}
 	);
-	let positionZ = folderPosition.add(parametrosGUI, 'positionZ').min(-25).max(25).step(0.1).name("Position Z");
+	let positionZ = folderPosition.add(parametrosGUI, 'positionZ').min(0).max(600).step(15).name("Position Z");
 	    positionZ.onChange(function (parametro){
-		    elementos[parametrosGUI.modelGUI].position.z = parametro;
+		    lights['directional'].position.z = parametro;
 		}
 	);
 
@@ -481,14 +546,13 @@ var init = function (){
 					);
 	
 	renderer = new THREE.WebGLRenderer();
+	renderer.shadowMap.enabled = true;
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	document.body.appendChild(renderer.domElement);
 		
 	camera.position.z = 620;
 	camera.position.x = 0;
 	camera.position.y = 50;
-
-	godSaysLightsOn();
 	
 	createGui();
 
@@ -518,6 +582,7 @@ var init = function (){
 		materialGroundAsfalto
 	);
 
+	groundAsfalto.receiveShadow = true;
 	groundAsfalto.rotation.x = - Math.PI/2;
 	groundAsfalto.position.y-=7.5;
 
@@ -539,6 +604,7 @@ var init = function (){
 		materialGroundGrama
 	);
 
+	groundGrama.receiveShadow = true;
 	groundGrama.rotation.x = - Math.PI/2;
 	groundGrama.position.y-=7.5;	
 
@@ -546,6 +612,8 @@ var init = function (){
 
 	scene.add(groundGrama);
 	scene.add(groundAsfalto);
+
+	godSaysLightsOn();
 
 	controls = new THREE.OrbitControls(camera, renderer.domElement);
 
