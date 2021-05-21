@@ -9,15 +9,22 @@ var parametrosGUI = {};
 
 var elementos = [];
 
-var velocidade = 0.07;
-
 var groundAsfalto;
 var groundGrama;
 var geometriaA;
 
 var lights = [];
 
-var char = [];
+var char;
+
+var charBounding;
+var charHelper;
+
+var staticBounding = [];
+
+var loadFinished;
+
+var bateu = false;
 
 var objLoading = function() {
 	loaderCaixa1 = new THREE.OBJLoader();
@@ -49,6 +56,11 @@ var objLoading = function() {
             obj.position.x = 12;
 			obj.position.y = -5.3;
 			obj.position.z = 200;
+
+			scene.add(new THREE.BoxHelper(obj, 0x000000));
+			obj.children[0].geometry.computeBoundingBox();
+			let objBox = new THREE.Box3().setFromObject(obj.children[0]);
+			staticBounding.push(objBox);
 
 			scene.add(obj);
 			console.log("Carregou Caixa !");
@@ -92,6 +104,11 @@ var objLoading = function() {
 			obj.position.y = -5.3;
 			obj.position.z = 0;
 
+			scene.add(new THREE.BoxHelper(obj, 0x000000));
+			obj.children[0].geometry.computeBoundingBox();
+			let objBox = new THREE.Box3().setFromObject(obj.children[0]);
+			staticBounding.push(objBox);
+
 			scene.add(obj);
 			console.log("Carregou Caixa2 !");
 
@@ -133,6 +150,11 @@ var objLoading = function() {
             obj.position.x = -15;
 			obj.position.y = -5.3;
 			obj.position.z = 400;
+
+			scene.add(new THREE.BoxHelper(obj, 0x000000));
+			obj.children[0].geometry.computeBoundingBox();
+			let objBox = new THREE.Box3().setFromObject(obj.children[0]);
+			staticBounding.push(objBox);
 
 			scene.add(obj);
 			console.log("Carregou Caixa3 !");
@@ -176,6 +198,11 @@ var objLoading = function() {
 			obj.position.y = -5.3;
 			obj.position.z = -50;
 
+			scene.add(new THREE.BoxHelper(obj, 0x000000));
+			obj.children[0].geometry.computeBoundingBox();
+			let objBox = new THREE.Box3().setFromObject(obj.children[0]);
+			staticBounding.push(objBox);
+
 			scene.add(obj);
 			console.log("Carregou Caixa3 !");
 
@@ -217,6 +244,11 @@ var objLoading = function() {
             obj.position.x = -20;
 			obj.position.y = -0.5;
 			obj.position.z = 60;
+
+			scene.add(new THREE.BoxHelper(obj, 0x000000));
+			obj.children[0].geometry.computeBoundingBox();
+			let objBox = new THREE.Box3().setFromObject(obj.children[0]);
+			staticBounding.push(objBox);
 
 			scene.add(obj);
 			console.log("Carregou Box1 !");
@@ -260,6 +292,11 @@ var objLoading = function() {
 			obj.position.y = -0.5;
 			obj.position.z = 320;
 
+			scene.add(new THREE.BoxHelper(obj, 0x000000));
+			obj.children[0].geometry.computeBoundingBox();
+			let objBox = new THREE.Box3().setFromObject(obj.children[0]);
+			staticBounding.push(objBox);
+
 			scene.add(obj);
 			console.log("Carregou Box2 !");
 
@@ -302,6 +339,11 @@ var objLoading = function() {
 			obj.position.y = -0.5;
 			obj.position.z = -150;
 
+			scene.add(new THREE.BoxHelper(obj, 0x000000));
+			obj.children[0].geometry.computeBoundingBox();
+			let objBox = new THREE.Box3().setFromObject(obj.children[0]);
+			staticBounding.push(objBox);
+
 			scene.add(obj);
 			console.log("Carregou Box3 !");
 
@@ -343,6 +385,11 @@ var objLoading = function() {
             obj.position.x = -25;
 			obj.position.y = -0.5;
 			obj.position.z = -240;
+
+			scene.add(new THREE.BoxHelper(obj, 0x000000));
+			obj.children[0].geometry.computeBoundingBox();
+			let objBox = new THREE.Box3().setFromObject(obj.children[0]);
+			staticBounding.push(objBox);
 
 			scene.add(obj);
 			console.log("Carregou Box4 !");
@@ -392,11 +439,113 @@ var fbxLoading = function() {
 			obj.rotation.z += 1.6;
 
 			char = new THREE.Group();
-			char.add(camera);
 			char.add(obj);
+			char.add(camera);
 
+			// charHelper = (new THREE.BoxHelper(obj, 0xff0000));
+			// scene.add(charHelper);
+
+			charObj = obj;
+			
+			obj.children[0].geometry.computeBoundingBox();
+			let objBox = new THREE.Box3().setFromObject(obj.children[0]);
+			charBounding = objBox;
+			
 			scene.add(char);
 			console.log("Carregou Carro !");
+			loadFinished = true;
+
+		},
+		function(andamento) {
+			console.log("Carregando..." + (andamento.loaded / andamento.total) * 100 + " %");
+		},
+		function(error) {
+			console.log("Deu merda!: "+ error);
+		},
+	);
+
+	loaderCarroPolicia = new THREE.FBXLoader();
+	loaderCarroPolicia.load(
+		'assets/carro/Models/car_2.fbx',
+		function(obj) {
+			
+			elementos['carro_policia'] = obj;
+
+			let texLoader = new THREE.TextureLoader().setPath("assets/carro/Textures/");
+
+			obj.traverse(function(child) {
+					if(child instanceof THREE.Mesh) {
+						let material = new THREE.MeshLambertMaterial();
+						let materialBase = texLoader.load("CarTexture2.png");
+						material.map = materialBase;
+						child.material = material;
+
+						child.castShadow = true;
+						child.receiveShadow = true;
+					} 
+				}
+			);
+
+			obj.scale.y = 8; 
+			obj.scale.z = 8;
+			obj.scale.x = 8;
+
+            obj.position.x = -15;
+			obj.position.y = -5;
+			obj.position.z = -450;
+
+			obj.rotation.x -= 4.7;
+			obj.rotation.z += 3;
+			
+			scene.add(obj);
+			console.log("Carregou Carro Policia !");
+			loadFinished = true;
+
+		},
+		function(andamento) {
+			console.log("Carregando..." + (andamento.loaded / andamento.total) * 100 + " %");
+		},
+		function(error) {
+			console.log("Deu merda!: "+ error);
+		},
+	);
+
+	loaderCarroPolicia2 = new THREE.FBXLoader();
+	loaderCarroPolicia2.load(
+		'assets/carro/Models/car_2.fbx',
+		function(obj) {
+			
+			elementos['carro_policia'] = obj;
+
+			let texLoader = new THREE.TextureLoader().setPath("assets/carro/Textures/");
+
+			obj.traverse(function(child) {
+					if(child instanceof THREE.Mesh) {
+						let material = new THREE.MeshLambertMaterial();
+						let materialBase = texLoader.load("CarTexture2.png");
+						material.map = materialBase;
+						child.material = material;
+
+						child.castShadow = true;
+						child.receiveShadow = true;
+					} 
+				}
+			);
+
+			obj.scale.y = 8; 
+			obj.scale.z = 8;
+			obj.scale.x = 8;
+
+            obj.position.x = 25;
+			obj.position.y = -5;
+			obj.position.z = -450;
+
+			obj.rotation.x -= 4.7;
+			obj.rotation.z += 3.5;
+			
+			scene.add(obj);
+			console.log("Carregou Carro Policia 2!");
+			loadFinished = true;
 
 		},
 		function(andamento) {
@@ -412,11 +561,6 @@ var ambientLightOn = function () {
 	lights['ambient'] = new THREE.AmbientLight(0xffffff);
 	lights['ambient'].intensity = 0.6;
 	scene.add(lights['ambient']);
-}
-
-var hemisphereLightOn = function () {
-	lights['hemisphere'] = new THREE.HemisphereLight(0xcce0ff);
-	scene.add(lights['hemisphere']);
 }
 
 var directionalLightOn = function () {
@@ -444,7 +588,6 @@ var directionalLightOn = function () {
 var godSaysLightsOn = function() {
 	ambientLightOn();
 	directionalLightOn();
-	//hemisphereLightOn();
 };
 
 var createGui = function (){
@@ -525,7 +668,7 @@ var createGui = function (){
 
 	let gColor = colorFolder.addColor(parametrosGUI, 'groundColor').name("Ground");
 	    gColor.onChange(function (parametro){
-			ground.material.color.setHex(parametro.replace("#", "0x"));
+			groundAsfalto.material.color.setHex(parametro.replace("#", "0x"));
 		}
 	);
 
@@ -534,7 +677,7 @@ var createGui = function (){
 
 var init = function (){
 	scene = new THREE.Scene();
-	scene.background = new THREE.Color(0xcce0ff);
+	scene.background = new THREE.Color(0xF49E12);
 	
 	
 //	Camera em perspectiva
@@ -624,24 +767,36 @@ var init = function (){
 };
 
 var key_r = false;
-var key_space = false;
-var key_q = false;
+var key_l = false;
+var key_up = false;
+var key_down = false;
 
 var soltouBotao = function(e){
 
 	if (e.keyCode == 37){ //left
+		key_l = false;
 		char.position.x -= 0;
+		if (elementos['carro'].rotation.z >= 1.4 && elementos['carro'].rotation.z <= 1.6) {
+			elementos['carro'].rotation.z += 0.2;
+		}
 	}
 
 	if (e.keyCode == 39){ //right
+		key_r = false;
 		char.position.x += 0;
+		
+		if (elementos['carro'].rotation.z >= 1.8 && elementos['carro'].rotation.z >= 1.6) {
+			elementos['carro'].rotation.z -= 0.2;
+		}
 	}
 
 	if (e.keyCode == 38){ //up
+		key_up = false;
 		char.position.z -= 0;
 	}
 
 	if (e.keyCode == 40){ //down
+		key_down = false;
 		char.position.z += 0;
 	}
 }
@@ -650,24 +805,47 @@ var soltouBotao = function(e){
 var apertouButao =  function(e){
 	console.log(e.keyCode);
 
-	if (e.keyCode == 37){ //left
+	if (e.keyCode == 37 && bateu == false){ //left
+		key_l = true;
 		char.position.x -= 2;
+		if (elementos['carro'].rotation.z == 1.6 && elementos['carro'].rotation.z >= 1.4) {
+			elementos['carro'].rotation.z -= 0.2;
+		}
+		char.position.z -= 1;
 	}
 
-	if (e.keyCode == 39){ //right
+	if (e.keyCode == 39 && bateu == false){ //right
+		key_r = true;
 		char.position.x += 2;
+		if (elementos['carro'].rotation.z == 1.6 && elementos['carro'].rotation.z <= 1.8) {
+			elementos['carro'].rotation.z += 0.2;
+		}
+		char.position.z -= 1;
 	}
 
-	if (e.keyCode == 38){ //up
+	if (e.keyCode == 38 && bateu == false){ //up
+		key_up = true;
 		char.position.z -= 3;
 	}
-	if (e.keyCode == 40){ //down
+	if (e.keyCode == 40 && bateu == false){ //down
+		key_down = true;
 		char.position.z += 3;
 	}
 }
 
 var animation = function (){
 	requestAnimationFrame(animation); //adiciona o método na fila de renderização
+
+	if (loadFinished) {
+		charBounding.setFromObject(elementos['carro'].children[0]);
+
+		staticBounding.forEach(function(item) {
+			if (item.intersectsBox(charBounding)){
+				bateu = true;
+				elementos['carro'].rotation.z += 2;
+			}
+		})
+	}
 	
 	renderer.render(scene, camera); //tira uma foto do estado e mostra na tela
 }
