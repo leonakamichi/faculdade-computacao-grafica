@@ -11,7 +11,7 @@ var elementos = [];
 
 var velocidade = 0.07;
 
-var ground;
+var groundAsfalto;
 var geometriaA;
 
 var char = [];
@@ -469,7 +469,7 @@ var createGui = function (){
 
 var init = function (){
 	scene = new THREE.Scene();
-	scene.background = new THREE.Color(0xcce0ff)
+	scene.background = new THREE.Color(0xcce0ff);
 	
 	
 //	Camera em perspectiva
@@ -499,28 +499,53 @@ var init = function (){
 	animation();
 
 
-	//criar um piso.
+	// ASFALTO
 	let textureLoad = new THREE.TextureLoader();
-	let groundTexture = textureLoad.load("assets/asfalto/Road007_2K_Color.jpg"); //busca a imagem
-	groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping; //quero que ela se repita
-	groundTexture.encoding = THREE.sRGBEncoding; //padrão cores, sempre que existir será informado
-	groundTexture.repeat.set(1, 1); //número de vezes que ela vai se repetir dentro do nosso chão
+	let groundTextureAsfalto = textureLoad.load("assets/asfalto/Road007_2K_Color.jpg"); //busca a imagem
+	groundTextureAsfalto.wrapS = groundTextureAsfalto.wrapT = THREE.RepeatWrapping; //quero que ela se repita
+	groundTextureAsfalto.encoding = THREE.sRGBEncoding; //padrão cores, sempre que existir será informado
+	groundTextureAsfalto.repeat.set(1, 1); //número de vezes que ela vai se repetir dentro do nosso chão
 
-	let materialGround = new THREE.MeshStandardMaterial({map: groundTexture});
-	materialGround.normalMap = textureLoad.load("assets/asfalto/Road007_2K_Normal.jpg"); //busca a normal, que dá noção de profundidade
-	materialGround.roughnessMap = textureLoad.load("assets/asfalto/Road007_2K_Roughness.jpg");
-	materialGround.displacementMap = textureLoad.load("assets/asfalto/Road007_2K_Displacement.jpg");
-	materialGround.displacementScale = 1;
-	materialGround.displacementBias = 1;
+	let materialGroundAsfalto = new THREE.MeshStandardMaterial({map: groundTextureAsfalto});
+	materialGroundAsfalto.normalMap = textureLoad.load("assets/asfalto/Road007_2K_Normal.jpg"); //busca a normal, que dá noção de profundidade
+	materialGroundAsfalto.roughnessMap = textureLoad.load("assets/asfalto/Road007_2K_Roughness.jpg");
+	materialGroundAsfalto.displacementMap = textureLoad.load("assets/asfalto/Road007_2K_Displacement.jpg");
+	materialGroundAsfalto.displacementScale = 1;
+	materialGroundAsfalto.displacementBias = 1;
 
-	ground = new THREE.Mesh(
+	groundAsfalto = new THREE.Mesh(
 		new THREE.PlaneBufferGeometry(100, 1500),
-		materialGround
+		materialGroundAsfalto
 	);
 
-	ground.rotation.x = - Math.PI/2;
-	ground.position.y-=7.5;
-	scene.add(ground);
+	groundAsfalto.rotation.x = - Math.PI/2;
+	groundAsfalto.position.y-=7.5;
+
+	// GRAMA
+	let groundTextureGrama = textureLoad.load("assets/grama/Grass003_4K_Color.jpg"); //busca a imagem
+	groundTextureGrama.wrapS = groundTextureGrama.wrapT = THREE.RepeatWrapping; //quero que ela se repita
+	groundTextureGrama.encoding = THREE.sRGBEncoding; //padrão cores, sempre que existir será informado
+	groundTextureGrama.repeat.set(25, 25); //número de vezes que ela vai se repetir dentro do nosso chão
+
+	let materialGroundGrama = new THREE.MeshStandardMaterial({map: groundTextureGrama});
+	materialGroundGrama.normalMap = textureLoad.load("assets/grama/Grass003_4K_Normal.jpg"); //busca a normal, que dá noção de profundidade
+	materialGroundGrama.roughnessMap = textureLoad.load("assets/grama/Grass003_4K_Roughness.jpg");
+	materialGroundGrama.displacementMap = textureLoad.load("assets/grama/Grass003_4K_Displacement.jpg");
+	materialGroundGrama.displacementScale = 1;
+	materialGroundGrama.displacementBias = 1;
+
+	groundGrama = new THREE.Mesh(
+		new THREE.PlaneBufferGeometry(1500, 1500),
+		materialGroundGrama
+	);
+
+	groundGrama.rotation.x = - Math.PI/2;
+	groundGrama.position.y-=7.5;	
+
+
+
+	scene.add(groundGrama);
+	scene.add(groundAsfalto);
 
 	controls = new THREE.OrbitControls(camera, renderer.domElement);
 
